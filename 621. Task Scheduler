@@ -1,0 +1,16 @@
+Observation:
+
+1. We need to try to complete the most frequent characters. So we are being greedy here so we use greedy approach.
+
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        charfreq=[0]*26 # for counting the no.of characters
+        for task in tasks:
+            charfreq[ord(task)-ord('A')]+=1
+        charfreq.sort()
+        maxidle=charfreq[-1]-1#we do need at the end
+        idle=maxidle*n #max no.of idle spaces
+
+        for i in range(24,-1,-1):
+            idle-=min(maxidle,charfreq[i])# filling with task to minimize idle spaces
+        return len(tasks)+idle if idle>=0 else len(tasks)
