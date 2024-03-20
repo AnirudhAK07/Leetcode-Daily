@@ -2,15 +2,60 @@ Observation:
 
 1. We need to try to complete the most frequent characters. So we are being greedy here so we use greedy approach.
 
+
+### Greedy Solution
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        charfreq=[0]*26 # for counting the no.of characters
+        # Initialize an array to track the frequency of characters
+        charfreq = [0] * 26 
+        
+        # Count the frequency of each task
         for task in tasks:
-            charfreq[ord(task)-ord('A')]+=1
+            charfreq[ord(task) - ord('A')] += 1
+        
+        # Sort the frequency array
         charfreq.sort()
-        maxidle=charfreq[-1]-1#we do need at the end
-        idle=maxidle*n #max no.of idle spaces
+        
+        # Calculate the maximum idle time
+        max_idle = charfreq[-1] - 1
+        idle = max_idle * n
 
-        for i in range(24,-1,-1):
-            idle-=min(maxidle,charfreq[i])# filling with task to minimize idle spaces
-        return len(tasks)+idle if idle>=0 else len(tasks)
+        # Fill tasks to minimize idle spaces
+        for i in range(24, -1, -1):
+            idle -= min(max_idle, charfreq[i])
+        
+        # Return the total time required
+        return len(tasks) + idle if idle >= 0 else len(tasks)
+
+
+### Solution using Maxheap and Queue
+
+import heapq
+from collections import Counter, deque
+
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        # Count the frequency of each task
+        count = Counter(tasks) 
+        
+        # Create a max heap with negative frequencies
+        max_heap = [-cnt for cnt in count.values()]
+        heapq.heapify(max_heap)
+        
+        # Initialize time and a queue for idle tasks
+        time = 0
+        idle_queue = deque()
+        
+        # Traverse through tasks and cooldowns
+        while max_heap or idle_queue:
+            time += 1
+            if max_heap:
+                cnt = heapq.heappop(max_heap) + 1
+                if cnt:
+                    idle_queue.append([cnt, time + n])
+            if idle_queue and idle_queue[0][1] == time:
+                heapq.heappush(max_heap, idle_queue.popleft()[0])
+        
+        # Return the total time required
+        return time
+
