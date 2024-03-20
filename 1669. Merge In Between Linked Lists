@@ -1,0 +1,22 @@
+Idea : Just cut and join the required end
+
+
+Code:
+
+
+
+class Solution:
+    def mergeInBetween(self, list1: ListNode, a: int, b: int, list2: ListNode) -> ListNode:
+        cur=list1 # used for getting the node at a and b pos.
+        end=list2 # to find the end of the second linked list
+        while(end.next):
+            end=end.next
+        for i in range(b+1): 
+            if i==a-1:
+                an=cur
+            if i==b:
+                bn=cur
+            cur=cur.next
+        an.next=list2#joining the req ends
+        end.next=bn.next
+        return list1
