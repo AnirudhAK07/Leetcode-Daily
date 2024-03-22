@@ -1,0 +1,12 @@
+
+
+My Solution:
+
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        stack=[]
+        temp=head
+        while(temp):
+            stack.append(temp.val)
+            temp=temp.next
+        return stack==stack[::-1]
