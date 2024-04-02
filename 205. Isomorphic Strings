@@ -1,0 +1,18 @@
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        if len(s) != len(t):
+            return False
+        s_to_t_mapping = {}
+        t_seen = set()
+        
+        for i in range(len(s)):
+            if s[i] in s_to_t_mapping:
+                if s_to_t_mapping[s[i]] != t[i]:
+                    return False
+            else:
+                if t[i] in t_seen:
+                    return False
+                s_to_t_mapping[s[i]] = t[i]
+                t_seen.add(t[i])
+        
+        return True
