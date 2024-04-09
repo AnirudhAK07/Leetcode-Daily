@@ -1,0 +1,21 @@
+Just a stimulation problem. but we need to remember the position as well so we add the position to the queue and icremented
+the time and only add when its greater than 0. our ticket person is with position k and tickets 0. then we break.
+
+
+
+class Solution:
+    def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
+        time=0
+        q=deque()
+        n=len(tickets)
+        for i in range(n):
+            q.append((tickets[i],i))
+        while q:
+            x,y=q.popleft()
+            time+=1
+            if (x-1)!=0:
+                q.append((x-1,y))
+            if x-1 ==0 and y==k:
+                break
+        return time
+        
