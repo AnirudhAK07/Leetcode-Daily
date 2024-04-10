@@ -1,0 +1,20 @@
+It's basically a stimulation problem. mistake i did was ignoring the data/information from the question
+to solve. if you can't find any way with the data given. Then think with indexes.
+
+
+class Solution:
+    def deckRevealedIncreasing(self, deck: List[int]) -> List[int]:
+        deck.sort()
+        n = len(deck)
+        result = [0] * n
+        queue = deque(range(n))
+
+        for card in deck:
+            result[queue.popleft()] = card
+            if queue:
+                queue.append(queue.popleft())
+
+        return result
+        
+
+        
