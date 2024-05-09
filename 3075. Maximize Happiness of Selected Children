@@ -1,0 +1,43 @@
+
+My Solution:
+
+class Solution:
+    def maximumHappinessSum(self, happiness: List[int], k: int) -> int:
+        arr=[-x for x in happiness]
+        heapq.heapify(arr)
+        s=0
+        i=0
+        while k>0:
+            m=abs(heappop(arr))
+            if m-i>=0:
+                s=s+m
+                s=s-i
+            k-=1
+            i+=1
+        return s
+
+
+My Dumb Solution(TLE):
+
+class Solution:
+    def maximumHappinessSum(self, happiness: List[int], k: int) -> int:
+        arr=[-x for x in happiness]
+        heapq.heapify(arr)
+        t=[]
+        s=0
+        while k>0:
+            if arr:
+                s=s+(abs(heappop(arr)))
+            while arr:
+                t.append(abs(heappop(arr))-1)
+            for i in t:
+                if i>=0:
+                    heappush(arr,-i)
+            t=[]
+            k-=1
+            
+        return s
+
+            
+        
+        
